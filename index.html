@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="GithubRepos">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TopGit</title>
+        
+           <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
+          <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+           <!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <![endif]-->
+     </head>
+    <body  ng-controller="MainController" >
+         <div id="site-name"><h1>TopGit</h1></div>
+        <section id="main-wrapper">
+            <div class="topBar">
+                Search By Language:
+            <input type=text list="lang" name="lang" ng-model="searchLang">
+            <button ng-click="searchRepo()">Search</button>
+            <datalist id="lang">
+                <option ng-repeat="i in index" value="{{Languages[i]}}"></option>           
+            </datalist> 
+                 <div id="bookmark" >
+                     <span ng-click="showBookmarks=true">Bookmarks({{MyBookmarks.length}})</span>
+                      </div>
+            </div>
+
+
+ <section class="main1 flex" ng-show="!repo.items.length"> &nbsp;
+     <br/><br/><br/><br/>
+     <h3>Search your favourite repository by language here.<br>
+         <br>And Bookmark for future.
+            </h3>
+
+</section>
+   <section class="main" ng-show="repo.items.length>0">   
+        <h3>Total <strong>{{repo.total_count}}</strong> repositories found..</h3>    
+        <div id="mybookmarks-wrapper" ng-show="showBookmarks&&MyBookmarks.length>0">
+                      <div id="mybookmarks">
+                   <h3>Bookmarked Repos are:</h3>
+                      <table>
+                      <thead>
+                          <tr><td><strong>Full Name</strong></td><td><strong>Language</strong></td>
+                          </tr>
+                      </thead>
+                  
+                          <tbody>
+                        <tr ng-repeat="Item in MyBookmarks">
+                       <td><a href="{{Item.html_url}}" target="_blank">{{Item.full_name}}</a> </td><td>{{Item.language}}</td>
+                          </tr>
+                          </tbody>
+                          </table>
+                    <button ng-click="showBookmarks=false" class="close">X</button>
+                      </div>
+                      </div>
+        </div>           
+      <div id="items-container">
+            <div ng-repeat="Item in repo.items" class="item">
+       <a href="{{Item.html_url}}" target="_blank"><h4>{{Item.full_name}}</h4></a>
+         <h5>Language:<strong>{{Item.language}}</strong> &nbsp;&nbsp;|&nbsp;&nbsp;{{Item.description.substring(0,60)}}
+            </h5>
+            <button ng-click="addRepo(Item)">Bookmark</button>
+            </div>
+            </div>
+   </section>
+          </section>
+
+        <script src="assets/js/angular.js"></script>
+        <script src="assets/js/controller.js"></script>
+    </body>
+</html>
